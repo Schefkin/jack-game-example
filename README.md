@@ -2,6 +2,6 @@
 
 This is a simple puzzle game coded in Jack programming language as an assigment from the book "The Elements of Computing Systems"
 
-Run the game by compiling all the files in Mazing folder using online Jack compiler found in `https://nand2tetris.github.io/web-ide/compiler`
+Run the game by compiling all the files in Mazing folder using online Jack compiler found in `https://nand2tetris.github.io/web-ide/compiler`, then press run
 
 ![](https://github.com/Schefkin/jack-game-example/blob/main/showcase.gif)
