@@ -1,0 +1,152 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/Square/SquareGame.jack
+
+/**
+ * Implements the Square Dance game.
+ * In this game you can move a black square around the screen and
+ * change its size during the movement.
+ * In the beginning, the square is located at the top-left corner
+ * of the screen. The arrow keys are used to move the square.
+ * The 'z' & 'x' keys are used to decrement and increment the size.
+ * The 'q' key is used to quit the game.
+ */
+class SquareGame {
+
+    // The square
+    field Square square;
+
+    // The levels
+    field Levels levels;
+    field Level1 level1;
+    //field Level2 level2;
+    
+    field boolean isMoving;
+
+    // The square's movement direction
+    field int direction; // 0=none,1=up,2=down,3=left,4=right
+
+    /** Constructs a new Square Game. */
+    constructor SquareGame new() {
+
+        // init level to 1
+        let levels = Levels.new();
+
+        // load first level
+        do level1.draw();
+        let square = level1.getStartingSquare();
+        let direction = 0;
+        let isMoving = false;
+
+        return this;
+    }
+
+    /** Deallocates the object's memory. */
+    method void dispose() {
+        //do square.dispose();
+        do levels.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Starts the game. Handles inputs from the user that control
+     *  the square's movement, direction and size. */
+    method void run() {
+        var char key;
+        var boolean exit;
+        var boolean isFinished;
+
+        let exit = false;
+
+        while (~exit) {
+            // waits for a key to be pressed.
+            while (key = 0) {
+                let key = Keyboard.keyPressed();
+                let isFinished = levels.isCurrentLevelFinished();
+                do moveSquare();
+
+                if (isFinished = true) {
+
+                    // dispose of previos squares memory
+                    do square.dispose();
+
+                    // clear the screen
+                    do Screen.clearScreen();
+
+                    let square = levels.loadNextLevel(1);
+
+                    if (square = null) {
+                        return;
+                    }
+
+                }
+            }
+
+            // todo add restart functionality
+            if (key = 113) {
+                let exit = true;
+            }
+            if (key = 114) {
+                // dispose of previos squares memory
+                do square.dispose();
+
+                // clear the screen
+                do Screen.clearScreen();
+
+                let direction = 0;
+
+                let square = levels.loadNextLevel(0);
+
+            }
+
+            if (isMoving = false) {
+
+                if (key = 131) {
+                    let direction = 1;
+                }
+                if (key = 133) {
+                    let direction = 2;
+                }
+                if (key = 130) {
+                    let direction = 3;
+                }
+                if (key = 132) {
+                    let direction = 4;
+                }
+
+            }
+
+            // waits for the key to be released.
+            while (~(key = 0)) {
+                let key = Keyboard.keyPressed();
+                do moveSquare();
+            }
+            
+        }
+
+        return;
+	}
+
+    /** Moves the square by 2 pixels in the current direction. */
+    method void moveSquare() {
+        if (direction = 1) {
+            let isMoving = square.moveUp();
+        }
+        if (direction = 2) {
+            let isMoving = square.moveDown();
+        }
+        if (direction = 3) {
+            let isMoving = square.moveLeft();
+        }
+        if (direction = 4) {
+            let isMoving = square.moveRight();
+        }
+        if (direction = 0) {
+            
+        }
+
+        do Sys.wait(50); // Delays the next movement.
+        return;
+    }
+}

@@ -1,0 +1,63 @@
+/**
+ * Implements the levels of Mazing.
+ */
+class Levels {
+
+    field int currentLevel;
+    field Level1 level1;
+    field Level2 level2;
+
+    constructor Levels new() {
+        let currentLevel = 1;
+
+        return this;
+    }
+
+
+    method boolean isCurrentLevelFinished() {
+        if (currentLevel = 1) {
+            
+            return level1.isFinished();
+        } 
+
+        if (currentLevel = 2) {
+            
+            return level2.isFinished();
+        } 
+
+        // some error occurred
+        return false;
+    }
+
+
+
+    method Square loadNextLevel(int i) {
+        let currentLevel = currentLevel + i;
+
+        if (currentLevel = 1) {
+            do level1.draw(); // Draw level 2
+            return level1.getStartingSquare(); // return new starting position
+        }
+        if (currentLevel = 2) {
+            do level2.draw(); // Draw level 2
+            return level2.getStartingSquare(); // return new starting position
+        }
+        // Add more levels here
+
+        // no levels left, game ended
+        return null;
+    }
+
+    // todo
+    method void restart() {
+
+        return;
+    }
+
+    /** Deallocates the object's memory. */
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}
