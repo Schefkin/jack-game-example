@@ -4,4 +4,3 @@ This is a simple puzzle game coded in Jack programming language as an assigment 
 
 Run the game by compiling all the files in Mazing folder using online Jack compiler found in `https://nand2tetris.github.io/web-ide/compiler`
 
-
